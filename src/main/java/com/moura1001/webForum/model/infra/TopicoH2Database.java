@@ -2,7 +2,6 @@ package com.moura1001.webForum.model.infra;
 
 import com.moura1001.webForum.model.entity.Topico;
 import com.moura1001.webForum.model.service.TopicoDAO;
-import com.moura1001.webForum.model.service.UsuarioDAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,15 +13,50 @@ import java.util.List;
 
 public class TopicoH2Database implements TopicoDAO {
 
-    private static UsuarioDAO usuarioDAO;
-
-    public TopicoH2Database(UsuarioDAO usuarioDAO) {
-        this.usuarioDAO = usuarioDAO;
-    }
+    private static final int QTD_INCREMENTA_PONTOS = 10;
 
     @Override
     public void inserir(Topico t) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD);
+
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+
+            String sql = "INSERT INTO topico(titulo, conteudo, login) VALUES (?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, t.getTitulo());
+            stmt.setString(2, t.getConteudo());
+            stmt.setString(3, t.getLoginUsuario());
+            stmt.executeUpdate();
+
+            sql = "UPDATE usuario SET pontos = pontos + ? WHERE login = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, QTD_INCREMENTA_PONTOS);
+            stmt.setString(2, t.getLoginUsuario());
+            stmt.executeUpdate();
+
+            conn.commit();
+
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    throw new RuntimeException("Erro ao tentar reverter operação", ex);
+                }
+            }
+            throw new RuntimeException("Não foi possível executar o acesso", e);
+        } finally {
+             if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException("Erro ao tentar encerrar conexão", ex);
+                }
+            }
+        }
     }
 
     @Override
