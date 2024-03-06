@@ -13,17 +13,12 @@ import java.util.List;
 
 public class UsuarioH2Database implements UsuarioDAO {
 
-    public static final String JDBC_DRIVER = "org.h2.Driver";
-    public static final String DB_URL = "jdbc:h2:~/mydb";
-    public static final String USER = "admin";
-    public static final String PASSWORD = "";
-
     static {
         try {
-            Class.forName(JDBC_DRIVER);
+            Class.forName(ConfigH2Database.JDBC_DRIVER);
 
             System.out.println("Connecting to database...");
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD);
 
             System.out.println("Setuping database from SQL file...");
 
@@ -39,7 +34,7 @@ public class UsuarioH2Database implements UsuarioDAO {
 
     @Override
     public void inserir(Usuario u) {
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
+        try (Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD)) {
 
             String sql = "INSERT INTO usuario(login, email, nome, senha, pontos) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -58,7 +53,7 @@ public class UsuarioH2Database implements UsuarioDAO {
 
     @Override
     public Usuario recuperar(String login) {
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
+        try (Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD)) {
 
             String sql = "SELECT * FROM usuario WHERE login = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -79,7 +74,7 @@ public class UsuarioH2Database implements UsuarioDAO {
 
     @Override
     public void adicionarPontos(String login, int pontos) {
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
+        try (Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD)) {
 
             String sql = "UPDATE usuario SET pontos = pontos + ? WHERE login = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -97,15 +92,20 @@ public class UsuarioH2Database implements UsuarioDAO {
     public List<Usuario> ranking() {
         List<Usuario> usuarios = new ArrayList<>(5);
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
+        try (Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD)) {
 
             Statement stmt = conn.createStatement();
             String sql = "SELECT * FROM usuario ORDER BY pontos DESC";
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                usuarios.add(new Usuario(rs.getString("login"), rs.getString("email"), rs.getString("nome"),
-                        rs.getString("senha"), rs.getInt("pontos")));
+                usuarios.add(new Usuario(
+                        rs.getString("login"),
+                        rs.getString("email"),
+                        rs.getString("nome"),
+                        rs.getString("senha"),
+                        rs.getInt("pontos")
+                ));
             }
 
         } catch (SQLException e) {
