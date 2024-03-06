@@ -61,8 +61,13 @@ public class UsuarioH2Database implements UsuarioDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Usuario(rs.getString("login"), rs.getString("email"), rs.getString("nome"),
-                        rs.getString("senha"), rs.getInt("pontos"));
+                return new Usuario(
+                        rs.getString("login"),
+                        rs.getString("email"),
+                        rs.getString("nome"),
+                        rs.getString("senha"),
+                        rs.getInt("pontos")
+                );
             }
 
             return null;

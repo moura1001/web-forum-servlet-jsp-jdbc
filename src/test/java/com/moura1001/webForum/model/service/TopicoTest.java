@@ -36,4 +36,11 @@ public class TopicoTest {
         assertEquals("maria", topicos.get(0).getLoginUsuario());
         assertEquals("joao", topicos.get(1).getLoginUsuario());
     }
+
+    @Test
+    void deveRecuperarUmTopicoDeUmDeterminadoUsuarioPeloTitulo() {
+        Topico topico = topicoDAO.recuperar("joao", "Tópico João");
+        assertNotNull(topico);
+        assertEquals("Post João", topico.getConteudo());
+    }
 }
