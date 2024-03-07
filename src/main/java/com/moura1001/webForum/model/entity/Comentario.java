@@ -14,7 +14,7 @@ public class Comentario {
         this.idTopico = idTopico;
     }
 
-    public String getTitulo() {
+    public String getComentario() {
         return comentario;
     }
 

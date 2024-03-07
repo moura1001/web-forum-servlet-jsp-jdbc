@@ -4,7 +4,11 @@ import com.moura1001.webForum.model.entity.Comentario;
 import com.moura1001.webForum.model.infra.ComentarioH2Database;
 import com.moura1001.webForum.model.infra.ConfigH2Database;
 import java.util.List;
+import org.dbunit.Assertion;
 import org.dbunit.JdbcDatabaseTester;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.ITable;
+import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.util.fileloader.FlatXmlDataFileLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,5 +40,27 @@ public class ComentarioTest {
         comentarios = comentarioDAO.listarTodos(2);
         assertEquals(1, comentarios.size());
         assertEquals("joao", comentarios.get(0).getLoginUsuario());
+    }
+    
+    @Test
+    void deveCadastrarUmNovoComentarioNumDeterminadoTopicoEAtualizarAPontuacaoDoUsuarioNoRanking() {
+        try {
+            comentarioDAO.inserir(new Comentario("Novo Comentário Maria", "maria", "Maria João", 1));
+            
+            IDataSet currenDataSet = jdt.getConnection().createDataSet();
+            ITable currentTableUsuario = currenDataSet.getTable("USUARIO");
+            ITable currentTableComentario = currenDataSet.getTable("COMENTARIO");
+            currentTableComentario = DefaultColumnFilter.excludedColumnsTable(currentTableComentario, new String[]{"id_comentario"});
+            
+            FlatXmlDataFileLoader loader = new FlatXmlDataFileLoader();
+            IDataSet expectedDataset = loader.load("/insert_comentario.xml");
+            ITable expectedTableUsuario = expectedDataset.getTable("USUARIO");
+            ITable expectedTableComentario = expectedDataset.getTable("COMENTARIO");
+
+            Assertion.assertEquals(expectedTableUsuario, currentTableUsuario);
+            Assertion.assertEquals(expectedTableComentario, currentTableComentario);
+        } catch (Exception e) {
+            fail(e);
+        }
     }
 }
