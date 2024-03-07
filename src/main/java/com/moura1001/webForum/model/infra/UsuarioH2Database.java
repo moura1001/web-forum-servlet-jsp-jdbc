@@ -13,25 +13,6 @@ import java.util.List;
 
 public class UsuarioH2Database implements UsuarioDAO {
 
-    static {
-        try {
-            Class.forName(ConfigH2Database.JDBC_DRIVER);
-
-            System.out.println("Connecting to database...");
-            Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD);
-
-            System.out.println("Setuping database from SQL file...");
-
-            SqlScriptBatchExecutor.executeBatchedSQL("src/main/resources/setup.sql", conn, 10);
-
-            System.out.println("Database setup finished.");
-
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void inserir(Usuario u) {
         try (Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD)) {
@@ -118,6 +99,24 @@ public class UsuarioH2Database implements UsuarioDAO {
         }
 
         return usuarios;
+    }
+
+    @Override
+    public void autenticarUsuario(String login, String senha) {
+        try (Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD)) {
+
+            String sql = "SELECT 1 FROM usuario WHERE login = ? AND senha = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, login);
+            stmt.setString(2, senha);
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next())
+                throw new RuntimeException("Não foi possível autenticar o usuário");
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Não foi possível executar o acesso", e);        
+        }
     }
 
 }

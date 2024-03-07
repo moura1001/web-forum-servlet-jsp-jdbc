@@ -16,5 +16,8 @@ public interface UsuarioDAO {
 
     // retorna a lista de usuários ordenada por pontos (maior primeiro)
     public List<Usuario> ranking();
+    
+    // adiciona os pontos para o usuário no banco
+    public void autenticarUsuario(String login, String senha);
 
 }
