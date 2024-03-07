@@ -4,11 +4,13 @@ public class Comentario {
 
     private String comentario;
     private String loginUsuario;
+    private String nomeUsuario;
     private int idTopico;
 
-    public Comentario(String titulo, String login, int idTopico) {
-        this.comentario = titulo;
-        this.loginUsuario = login;
+    public Comentario(String conteudo, String loginUsuario, String nomeUsuario, int idTopico) {
+        this.comentario = conteudo;
+        this.loginUsuario = loginUsuario;
+        this.nomeUsuario = nomeUsuario;
         this.idTopico = idTopico;
     }
 
@@ -16,8 +18,12 @@ public class Comentario {
         return comentario;
     }
 
-    public String getLogin() {
+    public String getLoginUsuario() {
         return loginUsuario;
+    }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 
     public int getIdTopico() {
