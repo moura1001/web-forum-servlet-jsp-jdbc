@@ -26,6 +26,12 @@ public class TopicoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        if(request.getSession(true).getAttribute("authenticatedUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/");
+            return;
+        }
+        
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");

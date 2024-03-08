@@ -190,6 +190,116 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "12d26d78-4b4c-41a0-bd53-0b78a0243c8a",
+    "name": "quandoDeslogadoOUsuarioNaoDeveTerAcessoATelaDeTopicos",
+    "commands": [{
+      "id": "25fd1509-8b26-4050-a710-6defc84c3bf6",
+      "comment": "",
+      "command": "open",
+      "target": "/web-forum-servlet-jsp-jdbc/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c2815922-9ec8-40e1-8758-17f127fa2f47",
+      "comment": "",
+      "command": "open",
+      "target": "/web-forum-servlet-jsp-jdbc/topicos",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "13fef583-548e-4df2-9b13-51f7553de743",
+      "comment": "",
+      "command": "click",
+      "target": "id=login",
+      "targets": [
+        ["id=login", "id"],
+        ["name=login", "name"],
+        ["css=#login", "css:finder"],
+        ["xpath=//input[@id='login']", "xpath:attributes"],
+        ["xpath=//div[@id='container__userInput']/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4c2687a0-36a0-428c-a59c-9d806eba7896",
+      "comment": "",
+      "command": "type",
+      "target": "id=login",
+      "targets": [
+        ["id=login", "id"],
+        ["name=login", "name"],
+        ["css=#login", "css:finder"],
+        ["xpath=//input[@id='login']", "xpath:attributes"],
+        ["xpath=//div[@id='container__userInput']/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "joao"
+    }, {
+      "id": "7e583b55-7963-4eb8-a798-fbe81096ffb1",
+      "comment": "",
+      "command": "click",
+      "target": "id=senha",
+      "targets": [
+        ["id=senha", "id"],
+        ["name=senha", "name"],
+        ["css=#senha", "css:finder"],
+        ["xpath=//input[@id='senha']", "xpath:attributes"],
+        ["xpath=//div[@id='container__userInput']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e96ae115-836f-4e14-a915-75e3fd5f6350",
+      "comment": "",
+      "command": "type",
+      "target": "id=senha",
+      "targets": [
+        ["id=senha", "id"],
+        ["name=senha", "name"],
+        ["css=#senha", "css:finder"],
+        ["xpath=//input[@id='senha']", "xpath:attributes"],
+        ["xpath=//div[@id='container__userInput']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "cf18e3f8-3041-401b-adcf-3c02244e4e01",
+      "comment": "",
+      "command": "click",
+      "target": "id=btnSubmit",
+      "targets": [
+        ["id=btnSubmit", "id"],
+        ["css=#btnSubmit", "css:finder"],
+        ["xpath=//input[@id='btnSubmit']", "xpath:attributes"],
+        ["xpath=//div[@id='container__form']/form/input", "xpath:idRelative"],
+        ["xpath=//form/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f2a326cf-3d20-4dd6-8461-6f80eaf25883",
+      "comment": "",
+      "command": "click",
+      "target": "id=btnDeslogar",
+      "targets": [
+        ["id=btnVoltar", "id"],
+        ["linkText=Deslogar", "linkText"],
+        ["css=#btnVoltar", "css:finder"],
+        ["xpath=//a[contains(text(),'Deslogar')]", "xpath:link"],
+        ["xpath=//a[@id='btnVoltar']", "xpath:attributes"],
+        ["xpath=//a[contains(@href, '/web-forum-servlet-jsp-jdbc/usuario/deslogar')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'Deslogar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "029ffd92-5cb5-4f7c-8161-ce6298d25601",
+      "comment": "",
+      "command": "open",
+      "target": "/web-forum-servlet-jsp-jdbc/topicos",
+      "targets": [],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "262d3f79-2019-46f6-acd0-5591e40fd5f2",

@@ -12,11 +12,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet({"/usuario/autenticar", "/usuario/cadastrar", "/usuario/criarConta"})
+@WebServlet({"/usuario/autenticar", "/usuario/cadastrar", "/usuario/criarConta", "/usuario/deslogar"})
 public class UsuarioServlet extends HttpServlet {
 
     private static final UsuarioDAO usuarioDAO = new UsuarioH2Database();
-    
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -32,6 +32,17 @@ public class UsuarioServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String path = request.getRequestURI().substring(request.getContextPath().length());
+
+        if ("/usuario/deslogar".equals(path)) {
+            request.getSession(true).setAttribute("authenticatedUser", null);
+            response.sendRedirect(request.getContextPath() + "/");
+        }
+
+        if (request.getSession(true).getAttribute("authenticatedUser") != null) {
+            response.sendRedirect(request.getContextPath() + "/topicos");
+            return;
+        }
+
         if ("/usuario/cadastrar".equals(path)) {
             request.getRequestDispatcher("/pages/cadastro/index.html").forward(request, response);
             return;
@@ -43,6 +54,8 @@ public class UsuarioServlet extends HttpServlet {
                         request.getParameter("login"),
                         request.getParameter("senha")
                 );
+
+                request.getSession(true).setAttribute("authenticatedUser", request.getParameter("login"));
 
                 response.sendRedirect(request.getContextPath() + "/topicos");
             } catch (RuntimeException e) {

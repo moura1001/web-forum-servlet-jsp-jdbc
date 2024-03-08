@@ -7,5 +7,6 @@
     </head>
     <body>
         <h1>Tela Tópicos</h1>
+        <a href="/web-forum-servlet-jsp-jdbc/usuario/deslogar" id="btnDeslogar">Deslogar</a>
     </body>
 </html>
