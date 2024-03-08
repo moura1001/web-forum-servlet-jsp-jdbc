@@ -1,8 +1,8 @@
 <dataset>
 	<USUARIO login="joao" email="joao@email.com" nome="João Maria" senha="123" pontos="256" />
-        <TOPICO id_topico="1" titulo="Tópico João" conteudo="Post João" login="joao" />
+        <TOPICO id_topico="123" titulo="Tópico João" conteudo="Post João" login="joao" />
 	<USUARIO login="maria" email="maria@email.com" nome="Maria João" senha="321" pontos="256" />
-        <TOPICO id_topico="2" titulo="Tópico Maria" conteudo="Post Maria" login="maria" />
-        <COMENTARIO comentario="Comentário Maria" login="maria" id_topico="1" />
-        <COMENTARIO comentario="Comentário João" login="joao" id_topico="2" />
+        <TOPICO id_topico="234" titulo="Tópico Maria" conteudo="Post Maria" login="maria" />
+        <COMENTARIO comentario="Comentário Maria" login="maria" id_topico="123" />
+        <COMENTARIO comentario="Comentário João" login="joao" id_topico="234" />
 </dataset>

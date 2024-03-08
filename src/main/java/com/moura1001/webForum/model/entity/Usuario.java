@@ -8,6 +8,14 @@ public class Usuario {
     private String senha;
     private int pontos;
 
+    public Usuario(String login, String email, String nome, String senha) {
+        this.login = login;
+        this.email = email;
+        this.nome = nome;
+        this.senha = senha;
+        this.pontos = 0;
+    }
+    
     public Usuario(String login, String email, String nome, String senha, int pontos) {
         this.login = login;
         this.email = email;

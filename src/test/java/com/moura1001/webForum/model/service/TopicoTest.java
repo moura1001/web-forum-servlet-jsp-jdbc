@@ -13,11 +13,17 @@ import org.dbunit.util.fileloader.FlatXmlDataFileLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
 
 public class TopicoTest {
 
     private TopicoDAO topicoDAO = new TopicoH2Database();
     private JdbcDatabaseTester jdt;
+
+    @BeforeAll
+    public static void init() {
+        ConfigH2Database.setupDatabase("src/main/resources/setup.sql", true);
+    }
 
     @BeforeEach
     public void setUp() {
@@ -27,7 +33,7 @@ public class TopicoTest {
             jdt.setDataSet(loader.load("/init.xml"));
             jdt.onSetup();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Erro no setup do teste", e);
         }
     }
 
@@ -50,12 +56,12 @@ public class TopicoTest {
     void deveCadastrarUmNovoTopicoDeUmDeterminadoUsuarioEAtualizarSuaPontuacaoNoRanking() {
         try {
             topicoDAO.inserir(new Topico("Novo Tópico Maria", "Novo Post Maria", "maria", "Maria João"));
-            
+
             IDataSet currenDataSet = jdt.getConnection().createDataSet();
             ITable currentTableUsuario = currenDataSet.getTable("USUARIO");
             ITable currentTableTopico = currenDataSet.getTable("TOPICO");
             currentTableTopico = DefaultColumnFilter.excludedColumnsTable(currentTableTopico, new String[]{"id_topico"});
-            
+
             FlatXmlDataFileLoader loader = new FlatXmlDataFileLoader();
             IDataSet expectedDataset = loader.load("/insert_topico.xml");
             ITable expectedTableUsuario = expectedDataset.getTable("USUARIO");

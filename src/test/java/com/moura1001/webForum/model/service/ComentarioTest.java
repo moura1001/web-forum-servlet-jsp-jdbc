@@ -13,11 +13,17 @@ import org.dbunit.util.fileloader.FlatXmlDataFileLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
 
 public class ComentarioTest {
 
     private ComentarioDAO comentarioDAO = new ComentarioH2Database();
     private JdbcDatabaseTester jdt;
+    
+    @BeforeAll
+    public static void init() {
+        ConfigH2Database.setupDatabase("src/main/resources/setup.sql", true);
+    }
 
     @BeforeEach
     public void setUp() {
@@ -27,17 +33,17 @@ public class ComentarioTest {
             jdt.setDataSet(loader.load("/init.xml"));
             jdt.onSetup();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Erro no setup do teste", e);
         }
     }
 
     @Test
     public void deveListarTodosOsComentariosDeUmDeterminadoTopico() {
-        List<Comentario> comentarios = comentarioDAO.listarTodos(1);
+        List<Comentario> comentarios = comentarioDAO.listarTodos(123);
         assertEquals(1, comentarios.size());
         assertEquals("maria", comentarios.get(0).getLoginUsuario());
         
-        comentarios = comentarioDAO.listarTodos(2);
+        comentarios = comentarioDAO.listarTodos(234);
         assertEquals(1, comentarios.size());
         assertEquals("joao", comentarios.get(0).getLoginUsuario());
     }
@@ -45,7 +51,7 @@ public class ComentarioTest {
     @Test
     void deveCadastrarUmNovoComentarioNumDeterminadoTopicoEAtualizarAPontuacaoDoUsuarioNoRanking() {
         try {
-            comentarioDAO.inserir(new Comentario("Novo Comentário Maria", "maria", "Maria João", 1));
+            comentarioDAO.inserir(new Comentario("Novo Comentário Maria", "maria", "Maria João", 123));
             
             IDataSet currenDataSet = jdt.getConnection().createDataSet();
             ITable currentTableUsuario = currenDataSet.getTable("USUARIO");

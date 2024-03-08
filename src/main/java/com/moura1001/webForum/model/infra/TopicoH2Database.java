@@ -49,7 +49,7 @@ public class TopicoH2Database implements TopicoDAO {
             }
             throw new RuntimeException("Não foi possível executar o acesso", e);
         } finally {
-             if (conn != null) {
+            if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {

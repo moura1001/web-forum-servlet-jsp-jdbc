@@ -1,3 +1,5 @@
+DROP ALL OBJECTS;
+
 CREATE TABLE IF NOT EXISTS usuario
 (
   login text NOT NULL,

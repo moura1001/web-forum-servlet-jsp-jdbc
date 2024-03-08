@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ComentarioH2Database implements ComentarioDAO {
-    
+
     private static final int QTD_INCREMENTA_PONTOS = 3;
 
     @Override

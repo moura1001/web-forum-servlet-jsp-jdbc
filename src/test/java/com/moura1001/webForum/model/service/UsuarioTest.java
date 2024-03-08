@@ -12,11 +12,17 @@ import org.dbunit.util.fileloader.FlatXmlDataFileLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
 
 public class UsuarioTest {
 
     private JdbcDatabaseTester jdt;
     private UsuarioDAO usuarioDAO = new UsuarioH2Database();
+
+    @BeforeAll
+    public static void init() {
+        ConfigH2Database.setupDatabase("src/main/resources/setup.sql", true);
+    }
 
     @BeforeEach
     void setUp() {
@@ -26,7 +32,7 @@ public class UsuarioTest {
             jdt.setDataSet(loader.load("/init.xml"));
             jdt.onSetup();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Erro no setup do teste", e);
         }
     }
 
@@ -61,7 +67,7 @@ public class UsuarioTest {
             fail(e);
         }
     }
-    
+
     @Test
     void deveAutenticarUsuarioAPartirDoLoginESenha() {
         usuarioDAO.autenticarUsuario("joao", "123");

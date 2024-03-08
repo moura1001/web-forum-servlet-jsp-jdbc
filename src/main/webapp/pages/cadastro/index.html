@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fórum - Cadastro</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/web-forum-servlet-jsp-jdbc/pages/cadastro/index.css">
+    </head>
+    <body>
+        <div id="container">
+            <div id="container__title">
+                <h1>Olá, para criar uma conta, preencha as informações abaixo:</h1>
+            </div>
+            <div id="container__form">
+                <form method="post" action="/web-forum-servlet-jsp-jdbc/usuario/criarConta">
+                    <div id="container__userInput">
+                        <div class="userInput">
+                            <label for="nome">Nome</label>
+                            <input type="text" id="nome" name="nome"
+                                   pattern="^[\sA-Za-z0-9\u00C0-\u00ff]{3,32}$" title="deve ser uma palavra de tamanho [3, 32] sem caracteres especiais"
+                                   placeholder="digite o nome" />
+                        </div>
+                        <div class="userInput">
+                            <label for="login">Login</label>
+                            <input type="text" id="login" name="login"
+                                   pattern="^[A-Za-z0-9]{3,32}$" title="deve ser uma palavra de tamanho [3, 32] sem caracteres especiais"
+                                   placeholder="digite o login" />
+                        </div>
+                        <div class="userInput">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email"
+                                   placeholder="digite o email" />
+                        </div>
+                        <div class="userInput">
+                            <label for="senha">Senha</label>
+                            <input type="password" id="senha" name="senha"
+                                   pattern="^[A-Za-z0-9]{3,32}$" title="deve ser uma palavra de tamanho [3, 32] sem caracteres especiais"
+                                   placeholder="digite a senha" />
+                        </div>
+                    </div>
+                    <input type="submit" id="btnSubmit" value="Entrar" />
+                    <a href="/web-forum-servlet-jsp-jdbc/" id="btnVoltar">Voltar</a>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

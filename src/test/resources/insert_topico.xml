@@ -1,7 +1,7 @@
 <dataset>
 	<USUARIO login="joao" email="joao@email.com" nome="João Maria" senha="123" pontos="256" />
-        <TOPICO titulo="Tópico João" conteudo="Post João" login="joao" />
 	<USUARIO login="maria" email="maria@email.com" nome="Maria João" senha="321" pontos="266" />
-        <TOPICO titulo="Tópico Maria" conteudo="Post Maria" login="maria" />
         <TOPICO titulo="Novo Tópico Maria" conteudo="Novo Post Maria" login="maria" />
+        <TOPICO titulo="Tópico João" conteudo="Post João" login="joao" />
+        <TOPICO titulo="Tópico Maria" conteudo="Post Maria" login="maria" />
 </dataset>
