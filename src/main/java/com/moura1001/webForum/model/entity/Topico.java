@@ -2,6 +2,7 @@ package com.moura1001.webForum.model.entity;
 
 public class Topico {
 
+    private int id;
     private String titulo;
     private String conteudo;
     private String loginUsuario;
@@ -12,6 +13,15 @@ public class Topico {
         this.conteudo = conteudo;
         this.loginUsuario = loginUsuario;
         this.nomeUsuario = nomeUsuario;
+    }
+    
+    public Topico(int id, String titulo, String conteudo, String loginUsuario, String nomeUsuario) {
+        this(titulo, conteudo, loginUsuario, nomeUsuario);
+        this.id = id;
+    }
+    
+    public int getId() {
+        return id;
     }
 
     public String getTitulo() {

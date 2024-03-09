@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fórum - Criar tópico</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/web-forum-servlet-jsp-jdbc/pages/topico/criar.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
+    </head>
+    <body>
+        <div id="container">
+            <div id="container__title">
+                <h1>Para criar um novo tópico, preencha as informações abaixo:</h1>
+            </div>
+            <div id="container__form">
+                <form id="formCriar" method="post" action="/web-forum-servlet-jsp-jdbc/topicos/criar">
+                    <div id="container__userInput">
+                        <div class="userInput">
+                            <label for="titulo">Título</label>
+                            <input required type="text" id="titulo" name="titulo"
+                                   pattern="^[\sA-Za-z0-9\u00C0-\u00ff]{3,64}$" title="Deve ser uma frase de tamanho [3, 64] sem caracteres especiais"
+                                   placeholder="digite o título" />
+                        </div>
+                        <div class="userInput">
+                            <label for="conteudo">Conteúdo</label>
+                            <textarea rows="4" cols="64"
+                                required id="conteudo" name="conteudo"
+                                placeholder="digite o conteúdo" ></textarea>
+                        </div>
+                    </div>
+                    <input type="submit" id="btnSubmit" value="Criar" />
+                    <a href="/web-forum-servlet-jsp-jdbc/topicos" id="btnVoltar">Voltar</a>
+                </form>
+            </div>
+        </div>
+        
+        <script>
+            $(document).ready(function() {
+                $("#conteudo").keyup(validateTextarea);
+            
+                function validateTextarea() {
+                    const errorMsg = "Conteúdo inválido. Deve ser um texto de tamanho [1, 2048] sem caracteres especiais";
+                    const textarea = this;
+
+                    // check each line of text
+                    $.each($(this).val().split("\n"), function() {
+                        // check if the line matches the pattern
+                        const hasError = !/^[\sA-Za-z0-9\u00C0-\u00ff]{1,2048}$/.test(this);
+
+                        $(textarea).toggleClass("error", hasError);
+                        $(textarea).toggleClass("ok", !hasError);
+
+                        if (hasError) {
+                            $(textarea).attr("title", errorMsg);
+                        } else {
+                            $(textarea).removeAttr("title");
+                        }
+                        return !hasError;
+                    });
+                }
+            
+                $.validator.addMethod(
+                    "validarConteudo",
+                    function(value) {
+                        return /^[\sA-Za-z0-9\u00C0-\u00ff]{1,2048}$/.test(value);
+                    },
+                    "Conteúdo inválido. Deve ser um texto de tamanho [1, 2048] sem caracteres especiais"
+                );
+            
+                $("#formCriar").validate({
+                    errorPlacement: function errorPlacement(error, element) {
+                        element.after(error);
+                    },
+                    rules: {
+                        conteudo: {
+                            required: true,
+                            validarConteudo: true
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
