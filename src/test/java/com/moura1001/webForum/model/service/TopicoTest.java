@@ -47,7 +47,7 @@ public class TopicoTest {
 
     @Test
     void deveRecuperarUmTopicoDeUmDeterminadoUsuarioPeloTitulo() {
-        Topico topico = topicoDAO.recuperar("joao", "Tópico João");
+        Topico topico = topicoDAO.recuperar("joao", 123);
         assertNotNull(topico);
         assertEquals("Post João", topico.getConteudo());
     }

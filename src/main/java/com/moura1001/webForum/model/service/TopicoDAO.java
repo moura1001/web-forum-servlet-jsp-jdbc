@@ -8,8 +8,8 @@ public interface TopicoDAO {
     // insere um novo tópico no banco de dados
     public void inserir(Topico t);
 
-    // recupera o tópico de um usuário pelo título
-    public Topico recuperar(String loginUsuario, String titulo);
+    // recupera o tópico de um usuário pelo id
+    public Topico recuperar(String loginUsuario, int idTopico);
 
     // retorna a lista de tópicos ordenada pela ordem de inserção (id populado pela sequência)
     public List<Topico> listarTodos();

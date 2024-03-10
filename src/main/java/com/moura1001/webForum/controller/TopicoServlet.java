@@ -1,8 +1,10 @@
 package com.moura1001.webForum.controller;
 
 import com.moura1001.webForum.model.entity.Topico;
+import com.moura1001.webForum.model.infra.ComentarioH2Database;
 import com.moura1001.webForum.model.infra.ConfigH2Database;
 import com.moura1001.webForum.model.infra.TopicoH2Database;
+import com.moura1001.webForum.model.service.ComentarioDAO;
 import com.moura1001.webForum.model.service.TopicoDAO;
 import jakarta.servlet.ServletConfig;
 import java.io.IOException;
@@ -12,10 +14,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet({"/topicos", "/topicos/criar"})
+@WebServlet({"/topicos", "/topicos/criar", "/topicos/visualizar"})
 public class TopicoServlet extends HttpServlet {
 
     private static final TopicoDAO topicoDAO = new TopicoH2Database();
+    private static final ComentarioDAO comentarioDAO = new ComentarioH2Database();
     
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -28,7 +31,8 @@ public class TopicoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        if(request.getSession(false).getAttribute("authenticatedUser") == null) {
+        String login = (String) request.getSession(false).getAttribute("authenticatedUser");
+        if(login == null) {
             response.sendRedirect(request.getContextPath() + "/");
             return;
         }
@@ -39,6 +43,7 @@ public class TopicoServlet extends HttpServlet {
 
         String path = request.getRequestURI().substring(request.getContextPath().length());
         if ("/topicos".equals(path)) {
+            request.setAttribute("login", login);
             request.setAttribute("topicos", topicoDAO.listarTodos());
             request.getRequestDispatcher("/pages/topico/index.jsp").forward(request, response);
             return;
@@ -46,6 +51,26 @@ public class TopicoServlet extends HttpServlet {
         
         if ("/topicos/criar".equals(path)) {
             request.getRequestDispatcher("/pages/topico/criar.html").forward(request, response);
+            return;
+        }
+        
+        if ("/topicos/visualizar".equals(path)) {
+            try {
+                int idTopico = Integer.parseInt(request.getParameter("id"));
+                String loginTopico = request.getParameter("login");
+                Topico topico = topicoDAO.recuperar(loginTopico, idTopico);
+                String[] conteudoTopico = topico.getConteudo().split("\n");
+                
+                request.setAttribute("topico", topico);
+                request.setAttribute("conteudoTopico", conteudoTopico);
+                request.setAttribute("comentarios", comentarioDAO.listarTodos(idTopico));
+                request.getRequestDispatcher("/pages/topico/visualizar.jsp").forward(request, response);
+            } catch (RuntimeException e) {
+                request.setAttribute("titulo", "Tópico - Erro");
+                String erro = "Não foi possível obter informações sobre o tópico pelo seguinte motivo: " + e.getMessage();
+                request.setAttribute("erro", erro);
+                request.getRequestDispatcher("/pages/erro/erro.jsp").forward(request, response);            
+            }
         }
     }
 

@@ -3,6 +3,6 @@
         <TOPICO id_topico="123" titulo="Tópico João" conteudo="Post João" login="joao" />
 	<USUARIO login="maria" email="maria@email.com" nome="Maria João" senha="321" pontos="256" />
         <TOPICO id_topico="234" titulo="Tópico Maria" conteudo="Post Maria" login="maria" />
-        <COMENTARIO comentario="Comentário Maria" login="maria" id_topico="123" />
-        <COMENTARIO comentario="Comentário João" login="joao" id_topico="234" />
+        <COMENTARIO id_comentario="123" comentario="Comentário Maria" login="maria" id_topico="123" />
+        <COMENTARIO id_comentario="234" comentario="Comentário João" login="joao" id_topico="234" />
 </dataset>

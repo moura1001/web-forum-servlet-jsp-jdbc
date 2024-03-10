@@ -60,18 +60,19 @@ public class TopicoH2Database implements TopicoDAO {
     }
 
     @Override
-    public Topico recuperar(String loginUsuario, String titulo) {
+    public Topico recuperar(String loginUsuario, int idTopico) {
         try (Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD)) {
 
-            String sql = "SELECT t.titulo, t.conteudo, t.login, u.nome FROM topico t INNER JOIN usuario u"
-                    + " ON t.login = u.login AND u.login = ? AND t.titulo = ?";
+            String sql = "SELECT t.id_topico, t.titulo, t.conteudo, t.login, u.nome FROM topico t INNER JOIN usuario u"
+                    + " ON t.login = u.login AND u.login = ? AND t.id_topico = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, loginUsuario);
-            stmt.setString(2, titulo);
+            stmt.setInt(2, idTopico);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 return new Topico(
+                        rs.getInt("id_topico"),
                         rs.getString("titulo"),
                         rs.getString("conteudo"),
                         rs.getString("login"),
@@ -93,12 +94,13 @@ public class TopicoH2Database implements TopicoDAO {
         try (Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD)) {
 
             Statement stmt = conn.createStatement();
-            String sql = "SELECT t.titulo, t.conteudo, t.login, u.nome FROM topico t INNER JOIN usuario u USING(login)"
+            String sql = "SELECT t.id_topico, t.titulo, t.conteudo, t.login, u.nome FROM topico t INNER JOIN usuario u USING(login)"
                     + " ORDER BY t.id_topico DESC";
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
                 topicos.add(new Topico(
+                        rs.getInt("id_topico"),
                         rs.getString("titulo"),
                         rs.getString("conteudo"),
                         rs.getString("login"),
