@@ -54,24 +54,18 @@ body{
     text-align: justify;
 }
 
-#container_comentarios{
+#container__comentarios{
     width: 90%;
     margin-inline: auto;
     margin-top: 4%;
 }
 
-#container_comentarios p{
+#container__comentarios p{
     text-align: center;
     text-decoration: yellowgreen wavy underline overline;
 }
 
-#container__topicos a{
-    width: 50%;
-    margin-top: 2%;
-    text-decoration: none;
-}
-
-#container__topicos ul{
+#container__comentarios ul{
     width: 80%;
     margin-inline: auto;
     
@@ -83,11 +77,12 @@ body{
     list-style-type: none;
 }
 
-#container__topicos ul li{
+#container__comentarios ul li{
     cursor: pointer;
     padding: 4%;
     border: 2px solid black;
     border-radius: 50% 20% / 10% 40%;
+    margin-top: 3%;
 }
 
 #container__form{

@@ -1,5 +1,6 @@
 package com.moura1001.webForum.controller;
 
+import com.moura1001.webForum.model.entity.Comentario;
 import com.moura1001.webForum.model.entity.Topico;
 import com.moura1001.webForum.model.infra.ComentarioH2Database;
 import com.moura1001.webForum.model.infra.ConfigH2Database;
@@ -14,7 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet({"/topicos", "/topicos/criar", "/topicos/visualizar"})
+@WebServlet({"/topicos", "/topicos/criar", "/topicos/visualizar", "/topicos/adicionarComentario"})
 public class TopicoServlet extends HttpServlet {
 
     private static final TopicoDAO topicoDAO = new TopicoH2Database();
@@ -99,6 +100,28 @@ public class TopicoServlet extends HttpServlet {
                 ));
 
                 response.sendRedirect(request.getContextPath() + "/topicos");
+            } catch (RuntimeException e) {
+                request.setAttribute("titulo", "Tópico - Erro");
+                String erro = "Não foi possível criar o tópico pelo seguinte motivo: " + e.getMessage();
+                request.setAttribute("erro", erro);
+                request.getRequestDispatcher("/pages/erro/erro.jsp").forward(request, response);
+            }
+        }
+        
+        if ("/topicos/adicionarComentario".equals(path)) {
+            try {
+                int idTopico = Integer.parseInt(request.getParameter("idTopico"));
+                comentarioDAO.inserir(new Comentario(
+                    request.getParameter("conteudo"),
+                    login,
+                    "",
+                    idTopico
+                ));
+
+                response.sendRedirect(
+                        request.getContextPath() +
+                        "/topicos/visualizar?id=" + idTopico + "&login=" + request.getParameter("loginTopico")
+                );
             } catch (RuntimeException e) {
                 request.setAttribute("titulo", "Tópico - Erro");
                 String erro = "Não foi possível criar o tópico pelo seguinte motivo: " + e.getMessage();

@@ -25,12 +25,13 @@
                         <p>&nbsp&nbsp${line}</p>
                     </c:forEach>
                 </div>
-                <div id="container_comentarios">
+                <div id="container__comentarios">
                     <c:choose>
                         <c:when test="${empty comentarios}">
                             <p>Ainda não existe nenhum comentário para ser exibido</p>
                         </c:when>
                         <c:otherwise>
+                            <p>Comentários:</p>
                             <ul>
                                 <c:forEach var="comentario" items="${comentarios}">
                                     <li>${comentario.getNomeUsuario()} comentou o seguinte: ${comentario.getComentario()}</li>
@@ -44,6 +45,7 @@
                 <form id="formCriar" method="post" action="/web-forum-servlet-jsp-jdbc/topicos/adicionarComentario">
                     <div id="container__userInput">
                         <input type="hidden" id="idTopico" name="idTopico" value="${topico.getId()}" />
+                        <input type="hidden" id="loginTopico" name="loginTopico" value="${topico.getLoginUsuario()}" />
                         <div class="userInput">
                             <label for="conteudo">Comentário</label>
                             <textarea rows="4" cols="64"

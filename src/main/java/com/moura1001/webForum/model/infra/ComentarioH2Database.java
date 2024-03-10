@@ -66,7 +66,7 @@ public class ComentarioH2Database implements ComentarioDAO {
 
             String sql = "SELECT c.comentario, c.login, t.id_topico, u.nome FROM"
                     + " topico t INNER JOIN comentario c ON t.id_topico = c.id_topico AND t.id_topico = ?"
-                    + " INNER JOIN usuario u USING(login)"
+                    + " INNER JOIN usuario u ON c.login = u.login"
                     + " ORDER BY c.id_comentario DESC";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, idTopico);
