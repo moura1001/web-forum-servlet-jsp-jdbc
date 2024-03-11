@@ -12,7 +12,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet({"/usuario/autenticar", "/usuario/cadastrar", "/usuario/criarConta", "/usuario/deslogar"})
+@WebServlet({
+    "/usuario/autenticar", "/usuario/cadastrar", "/usuario/criarConta",
+    "/usuario/deslogar", "/usuarios/ranking"
+})
 public class UsuarioServlet extends HttpServlet {
 
     private static final UsuarioDAO usuarioDAO = new UsuarioH2Database();
@@ -39,7 +42,20 @@ public class UsuarioServlet extends HttpServlet {
         }
 
         if (request.getSession(true).getAttribute("authenticatedUser") != null) {
-            response.sendRedirect(request.getContextPath() + "/topicos");
+
+            if ("/usuarios/ranking".equals(path)) {
+                try {
+                    request.setAttribute("ranking", usuarioDAO.ranking());
+                    request.getRequestDispatcher("/pages/ranking/index.jsp").forward(request, response);
+                } catch (RuntimeException e) {
+                    request.setAttribute("titulo", "Ranking - Erro");
+                    String erro = "Não foi possível obter informações sobre o ranking de interações pelo seguinte motivo: " + e.getMessage();
+                    request.setAttribute("erro", erro);
+                    request.getRequestDispatcher("/pages/erro/erro.jsp").forward(request, response);
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/topicos");
+            }
             return;
         }
 

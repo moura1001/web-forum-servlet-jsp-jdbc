@@ -81,7 +81,7 @@ public class UsuarioH2Database implements UsuarioDAO {
         try (Connection conn = DriverManager.getConnection(ConfigH2Database.DB_URL, ConfigH2Database.USER, ConfigH2Database.PASSWORD)) {
 
             Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM usuario ORDER BY pontos DESC";
+            String sql = "SELECT * FROM usuario WHERE pontos > 0 ORDER BY pontos DESC";
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
